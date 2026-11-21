@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Road Damage Detection & Severity Classification</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:#10141d;color:#fff;font-family:system-ui,Arial,sans-serif}
+main{height:100%;display:flex;flex-direction:column}.stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:12px}
+#slide{max-width:100%;max-height:100%;object-fit:contain;box-shadow:0 10px 35px #0008}
+footer{display:flex;align-items:center;justify-content:center;gap:16px;padding:12px;background:#171d29}
+button{border:0;border-radius:8px;padding:10px 18px;background:#2b6de0;color:white;font-size:16px;cursor:pointer}
+button:disabled{opacity:.35;cursor:default}#count{min-width:90px;text-align:center;font-variant-numeric:tabular-nums}
+</style></head>
+<body><main><div class="stage"><img id="slide" src="slides/01.jpg" alt="Presentation slide 1"></div>
+<footer><button id="prev" aria-label="Previous slide">← Previous</button><span id="count">1 / 23</span><button id="next" aria-label="Next slide">Next →</button></footer></main>
+<script>
+const total=23;let n=1;const img=document.getElementById('slide'),count=document.getElementById('count'),prev=document.getElementById('prev'),next=document.getElementById('next');
+function show(){img.src='slides/'+String(n).padStart(2,'0')+'.jpg';img.alt='Presentation slide '+n;count.textContent=n+' / '+total;prev.disabled=n===1;next.disabled=n===total;history.replaceState(null,'','#slide-'+n)}
+prev.onclick=()=>{if(n>1){n--;show()}};next.onclick=()=>{if(n<total){n++;show()}};
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='PageDown'){next.click()}if(e.key==='ArrowLeft'||e.key==='PageUp'){prev.click()}if(e.key==='Home'){n=1;show()}if(e.key==='End'){n=total;show()}});
+let startX=0;img.addEventListener('touchstart',e=>startX=e.touches[0].clientX,{passive:true});img.addEventListener('touchend',e=>{let d=e.changedTouches[0].clientX-startX;if(Math.abs(d)>45)(d<0?next:prev).click()},{passive:true});
+</script></body></html>
